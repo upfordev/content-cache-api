@@ -43,10 +43,6 @@ jobs:
           # Inject new env block with main name, main entrypoint, and routes
           jq ". + { env: { \"release\": { \"name\": \"$WORKER_NAME\", \"main\": \"./dist/_worker.js/index.js\" } } }" wrangler_clean.json > wrangler.jsonc
 
-      - name: Build project
-        # Using environment variables from job level
-        run: npm run build
-
       - name: Verify worker entrypoint exists
         run: ls -l ./dist/_worker.js/index.js
 
