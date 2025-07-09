@@ -14,44 +14,13 @@ jobs:
       # Secrets stored in github
       API_TOKEN: ${{ secrets.API_TOKEN }}
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-
-      - name: Install dependencies (verbose)
-        run: |
-          npm config set loglevel verbose
-          npm ci
-
-      - name: Set worker name
-        id: env
-        run: |
-          WORKER_NAME="main"
-          echo "worker_name=${WORKER_NAME}" >> $GITHUB_OUTPUT
-
-      - name: Patch wrangler.jsonc with dynamic env
-        run: |
-          WORKER_NAME="${{ steps.env.outputs.worker_name }}"
-          echo "Deploying to main environment: $WORKER_NAME"
-
-          # Remove comments from JSONC to avoid jq parse errors
-          grep -v '^\s*//' wrangler.jsonc > wrangler_clean.json
-
-          # Inject new env block with main name, main entrypoint, and routes
-          jq ". + { env: { \"main\": { \"name\": \"$WORKER_NAME\", \"main\": \"./dist/_worker.js/index.js\" } } }" wrangler_clean.json > wrangler.jsonc
-
       # https://github.com/marketplace/actions/deploy-to-cloudflare-workers-with-wrangler
       - name: Deploy to Cloudflare Workers
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: deploy --env main
-          environment: main
+          command: deploy
           secrets: |
             API_TOKEN
         env:
