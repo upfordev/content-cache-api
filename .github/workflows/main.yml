@@ -21,7 +21,7 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: deploy --name content-cache-api
+          command: deploy
           wranglerVersion: "4.24.0"
           secrets: API_TOKEN
         env:
