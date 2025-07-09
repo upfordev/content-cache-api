@@ -69,12 +69,12 @@ export class CacheDelete extends OpenAPIRoute {
         success: true,
         key,
       });
-    } catch (error: any) {
+    } catch (error: unknown) {
       return c.json(
         {
           success: false,
           error: `Failed to delete from cache: ${
-            error?.message || "Unknown error"
+            (error as Error)?.message || "Unknown error"
           }`,
         },
         500

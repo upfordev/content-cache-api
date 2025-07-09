@@ -59,7 +59,7 @@ export class CachePut extends OpenAPIRoute {
     const { key } = data.params;
 
     // Retrieve value and expirationTtl from body
-    const body = data.body as { value: any; expirationTtl?: number };
+    const body = data.body as { value: unknown; expirationTtl?: number };
     const { value, expirationTtl } = body;
 
     try {
@@ -75,12 +75,12 @@ export class CachePut extends OpenAPIRoute {
         success: true,
         key,
       });
-    } catch (error: any) {
+    } catch (error: unknown) {
       return c.json(
         {
           success: false,
           error: `Failed to store in cache: ${
-            error?.message || "Unknown error"
+            (error as Error)?.message || "Unknown error"
           }`,
         },
         500

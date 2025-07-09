@@ -90,12 +90,12 @@ export class CacheList extends OpenAPIRoute {
         success: true,
         result: response,
       });
-    } catch (error: any) {
+    } catch (error: unknown) {
       return c.json(
         {
           success: false,
           error: `Failed to list keys from cache: ${
-            error?.message || "Unknown error"
+            (error as Error)?.message || "Unknown error"
           }`,
         },
         500
