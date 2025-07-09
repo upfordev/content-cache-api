@@ -43,9 +43,6 @@ jobs:
           # Inject new env block with main name, main entrypoint, and routes
           jq ". + { env: { \"release\": { \"name\": \"$WORKER_NAME\", \"main\": \"./dist/_worker.js/index.js\" } } }" wrangler_clean.json > wrangler.jsonc
 
-      - name: Verify worker entrypoint exists
-        run: ls -l ./dist/_worker.js/index.js
-
       # https://github.com/marketplace/actions/deploy-to-cloudflare-workers-with-wrangler
       - name: Deploy to Cloudflare Workers
         uses: cloudflare/wrangler-action@v3
