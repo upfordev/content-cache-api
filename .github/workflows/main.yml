@@ -14,6 +14,7 @@ jobs:
       # Secrets stored in github
       API_TOKEN: ${{ secrets.API_TOKEN }}
     steps:
+      - uses: actions/checkout@v4
       # https://github.com/marketplace/actions/deploy-to-cloudflare-workers-with-wrangler
       - name: Deploy to Cloudflare Workers
         uses: cloudflare/wrangler-action@v3
@@ -21,6 +22,7 @@ jobs:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           command: deploy
+          environment: main
           secrets: |
             API_TOKEN
         env:
